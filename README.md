@@ -28,6 +28,7 @@ The following chaotic systems are currently implemented:
 - Three Scroll
 - Sprott
 - Four Wing
+- Langford (Aizawa)
 
 ## Installation and Running
 
@@ -44,10 +45,10 @@ Note: Running in release mode is highly recommended as numerical integration and
 
 ## Controls
 
-- Use the on-screen "Controls" window to select the desired attractor type from the dropdown menu.
-- Adjust the sliders to change specific mathematical parameters (e.g., Sigma, Rho, Beta) and see the attractor morph in real-time.
-- Toggle "Auto Rotate" to have the camera continuously orbit the center of the scene.
-- Manually adjust the "Cam X", "Cam Y", and "Cam Z" sliders to change the viewing angle and explore the structures.
+- **Attractor Selection**: Use the on-screen "Controls" window to select the desired attractor type from the dropdown menu.
+- **Parameters**: Adjust the mathematical parameter sliders to see the attractor morph in real-time.
+- **Visuals**: Toggle "Show Particles" to enable/disable the 500-particle swarm, and adjust "Sim Speed (dt)" to control integration speed.
+- **Camera Position**: Toggle "Auto Rotate" to have the camera continuously orbit, or manually adjust the Cam X, Y, and Z sliders.
 
 ## Dependencies
 
