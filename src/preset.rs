@@ -163,6 +163,27 @@ impl FourWing {
     }
 }
 
+pub struct Langford {
+    pub a: f32,
+    pub b: f32,
+    pub c: f32,
+    pub d: f32,
+    pub e: f32,
+    pub f: f32,
+}
+
+impl Langford {
+    pub fn new(a: f32, b: f32, c: f32, d: f32, e: f32, f: f32) -> Self {
+        Self { a, b, c, d, e, f }
+    }
+    pub fn step(&mut self, x: f32, y: f32, z: f32, dt: f32) -> (f32, f32, f32) {
+        let dx = ((z - self.b) * x - self.d * y) * dt;
+        let dy = (self.d * x + (z - self.b) * y) * dt;
+        let dz = (self.c + self.a * z - (z * z * z / 3.0) - (x * x + y * y) * (1.0 + self.e * z) + self.f * z * x * x * x) * dt;
+        (x + dx, y + dy, z + dz)
+    }
+}
+
 #[derive(PartialEq)]
 pub enum AttractorKind {
     Lorenz,
@@ -175,6 +196,7 @@ pub enum AttractorKind {
     ThreeScroll,
     Sprott,
     FourWing,
+    Langford,
 }
 
 pub enum Attractor {
@@ -188,6 +210,7 @@ pub enum Attractor {
     ThreeScroll(ThreeScroll),
     Sprott(Sprott),
     FourWing(FourWing),
+    Langford(Langford),
 }
 
 impl Attractor {
@@ -203,6 +226,7 @@ impl Attractor {
             Attractor::ThreeScroll(_) => AttractorKind::ThreeScroll,
             Attractor::Sprott(_) => AttractorKind::Sprott,
             Attractor::FourWing(_) => AttractorKind::FourWing,
+            Attractor::Langford(_) => AttractorKind::Langford,
         }
     }
 
@@ -216,6 +240,7 @@ impl Attractor {
     pub fn default_threescroll() -> Self { Attractor::ThreeScroll(ThreeScroll::new(32.48, 45.84, 1.18, 0.13, 0.57, 14.7)) }
     pub fn default_sprott() -> Self { Attractor::Sprott(Sprott::new(2.07, 1.79)) }
     pub fn default_fourwing() -> Self { Attractor::FourWing(FourWing::new(0.2, 0.01, -0.4)) }
+    pub fn default_langford() -> Self { Attractor::Langford(Langford::new(0.95, 0.7, 0.6, 3.5, 0.25, 0.1)) }
 
     pub fn step(&mut self, x: f32, y: f32, z: f32, dt: f32) -> (f32, f32, f32) {
         match self {
@@ -229,6 +254,7 @@ impl Attractor {
             Attractor::ThreeScroll(a) => a.step(x, y, z, dt),
             Attractor::Sprott(a) => a.step(x, y, z, dt),
             Attractor::FourWing(a) => a.step(x, y, z, dt),
+            Attractor::Langford(a) => a.step(x, y, z, dt),
         }
     }
 
@@ -283,6 +309,14 @@ impl Attractor {
                 changed |= ui.add(egui::Slider::new(&mut a.a, 0.0..=1.0).text("a")).changed();
                 changed |= ui.add(egui::Slider::new(&mut a.b, 0.0..=1.0).text("b")).changed();
                 changed |= ui.add(egui::Slider::new(&mut a.c, -1.0..=1.0).text("c")).changed();
+            }
+            Attractor::Langford(a) => {
+                changed |= ui.add(egui::Slider::new(&mut a.a, 0.0..=2.0).text("a")).changed();
+                changed |= ui.add(egui::Slider::new(&mut a.b, 0.0..=2.0).text("b")).changed();
+                changed |= ui.add(egui::Slider::new(&mut a.c, 0.0..=2.0).text("c")).changed();
+                changed |= ui.add(egui::Slider::new(&mut a.d, 0.0..=5.0).text("d")).changed();
+                changed |= ui.add(egui::Slider::new(&mut a.e, 0.0..=1.0).text("e")).changed();
+                changed |= ui.add(egui::Slider::new(&mut a.f, 0.0..=1.0).text("f")).changed();
             }
         }
         changed
