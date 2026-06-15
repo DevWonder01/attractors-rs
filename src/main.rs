@@ -52,6 +52,7 @@ async fn main() {
     let mut camera_angle: f32 = 0.0;
     let mut show_particles = true;
     let mut dt: f32 = 0.005;
+    let mut zoom_distance: f32 = 100.0;
 
     loop {
         clear_background(BLACK);
@@ -73,12 +74,18 @@ async fn main() {
             path.remove(0);
         }
 
+        let (_, scroll_y) = mouse_wheel();
+        if scroll_y != 0.0 {
+            zoom_distance = (zoom_distance - scroll_y * 3.0).max(1.0);
+        }
+
+        let view_dir = (camera.position - camera.target).normalize();
+        camera.position = camera.target + view_dir * zoom_distance;
+
         if auto_rotate {
             camera_angle += 0.01;
-            let radius = (camera.position.x * camera.position.x + camera.position.z * camera.position.z).sqrt();
-            let r = if radius == 0.0 { 100.0 } else { radius };
-            camera.position.x = r * camera_angle.sin();
-            camera.position.z = r * camera_angle.cos();
+            camera.position.x = zoom_distance * camera_angle.sin();
+            camera.position.z = zoom_distance * camera_angle.cos();
         } else {
             camera_angle = camera.position.x.atan2(camera.position.z);
         }
@@ -170,9 +177,9 @@ async fn main() {
                 ui.separator();
                 ui.heading("Camera Position");
                 ui.checkbox(&mut auto_rotate, "Auto Rotate");
-                ui.add(egui::Slider::new(&mut camera.position.x, -5000.0..=5000.0).text("Cam X"));
+                ui.add(egui::Slider::new(&mut zoom_distance, 1.0..=5000.0).text("Zoom"));
                 ui.add(egui::Slider::new(&mut camera.position.y, -5000.0..=5000.0).text("Cam Y"));
-                ui.add(egui::Slider::new(&mut camera.position.z, -5000.0..=5000.0).text("Cam Z"));
+                ui.add(egui::Slider::new(&mut camera_angle, -std::f32::consts::PI..=std::f32::consts::PI).text("Cam Angle"));
             });
         });
 
