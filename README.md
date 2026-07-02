@@ -1,4 +1,4 @@
-<img width="480" height="300" alt="image" src="https://github.com/user-attachments/assets/0bbfbd9b-89b2-42b2-a0d3-ed3a26849096" /># Attractor 3D
+# Attractor 3D
 
 A real-time, interactive 3D simulation of various chaotic strange attractors, built in Rust using Macroquad and Egui.
 
