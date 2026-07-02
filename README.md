@@ -1,10 +1,13 @@
-# Attractor 3D
+<img width="480" height="300" alt="image" src="https://github.com/user-attachments/assets/0bbfbd9b-89b2-42b2-a0d3-ed3a26849096" /># Attractor 3D
 
 A real-time, interactive 3D simulation of various chaotic strange attractors, built in Rust using Macroquad and Egui.
 
 ## Description
 
 This project visualizes mathematical systems known as strange attractors. It numerically integrates these differential equations over time to produce continuous 3D paths. The simulation includes a built-in graphical user interface that allows you to switch between different attractor models on the fly, tweak their internal parameters, and adjust the camera to explore their unique geometric properties in 3D space.
+
+<img width="1842" height="1158" alt="image" src="https://github.com/user-attachments/assets/c3f5962f-08b9-4a83-b54c-34c85497217d" />
+
 
 ## Features
 
